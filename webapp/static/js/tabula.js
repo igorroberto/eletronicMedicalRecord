@@ -22,7 +22,8 @@ var TabulaRouter = Backbone.Router.extend({
     "error":                       'uploadError',
     "help":                        'help',
     "about":                       'about',
-    "mytemplates":                 'templates'
+    "mytemplates":                 'templates',
+    "mylaboratories":             'laboratories'
   },
 
   help: function(){
@@ -47,6 +48,24 @@ var TabulaRouter = Backbone.Router.extend({
       async: true,
       success: function(data, status, jqxhr){
         Tabula.library = new Tabula.TemplateLibrary({el: $('#tabula-app')[0]}).render();
+      },
+      error: function(a,b,c){
+        console.log(a,b,c);
+      }
+    });
+  },
+
+  laboratories: function(){
+    alert("eaii??");
+    document.title="Laboratories | Tabula";
+    $('nav li a').removeClass('active'); $('nav #laboratories-nav').addClass('active');
+    $('#tabula-app').html( _.template( $('#laboratories-template').html().replace(/nestedscript/g, 'script') )({ }) );
+    $.ajax({
+      url: (base_uri || '/') + "js/laboratory_library.js",
+      dataType: "script",
+      async: true,
+      success: function(data, status, jqxhr){
+        Tabula.library = new Tabula.LaboratoryLibrary({el: $('#tabula-app')[0]}).render();
       },
       error: function(a,b,c){
         console.log(a,b,c);

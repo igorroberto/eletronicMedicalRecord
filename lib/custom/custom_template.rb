@@ -16,11 +16,11 @@ module Tabula
     def insert_template(template)
       baseInstance = makeMongoConection()
       collection = baseInstance[:template]
-
+      #top, left, bottom, right
       template.each do |item|
         puts item
         puts "fimmm ^^^^"
-        doc = { top: item["y1"], right: item["x1"], bottom: item["y2"], left: item["x2"] }
+        doc = { top: item["y1"], left: item["x1"], bottom: item["y2"], right: item["x2"] }
         result = collection.insert_one(doc)
       end
     
