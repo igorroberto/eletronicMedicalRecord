@@ -29,6 +29,7 @@ require_relative '../lib/tabula_job_executor/jobs/generate_thumbnails.rb'
 require_relative '../lib/tabula_job_executor/jobs/detect_tables.rb'
 #custom
 require_relative '../lib/custom/custom_template.rb'
+require_relative '../lib/custom/custom_laboratory.rb'
 
 
 def is_valid_pdf?(path)
@@ -246,7 +247,7 @@ Cuba.define do
         puts "testano aqui --------------"
         puts JSON.generate(template_info["template"])
         puts "fim teste aqui --------------"
-        Tabula::CustomTemplate.instance.insert_template(template_info["template"])
+        Tabula::CustomTemplate.instance.insert(template_info["template"])
 
         template_name = template_info["name"] || "Unnamed Template #{Time.now.to_s}"
         template_id = Digest::SHA1.hexdigest(Time.now.to_s + template_name) # just SHA1 of time isn't unique with multiple uploads
