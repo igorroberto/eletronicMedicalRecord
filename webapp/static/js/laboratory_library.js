@@ -1,17 +1,20 @@
 Backbone.emulateJSON = true;
 Tabula.SavedLaboratory = Backbone.Model.extend({
   // templates.push({"name": "fake test template", "selection_count": 0, "page_count": 0, "time": "1499535056", "id": "asdfasdf"})
-  name: null,
-  page_count: null,
-  selection_count: null,
+  cnpj: null,
+  laboratoryName: null,
+  responsableName: null,
+  responsableNumber: null,
   id: null,
   time: 0,
   urlRoot: "laboratories",
   initialize: function(){
-    this.set('name', this.get('name') || null);
-    this.set('page_count', this.get('page_count') || null)
-    this.set('selection_count', this.get('selection_count') || null)
-    this.set('id', this.get('id') || null)
+    this.set('CNPJ', this.get('CNPJ') || null);
+    this.set('laboratoryName', this.get('laboratoryName') || null)
+    this.set('responsableName', this.get('responsableName') || null)
+    this.set('responsableNumber', this.get('responsableNumber') || null)
+    let _id = this.get('_id')
+    this.set('id', _id.$oid || null)
     this.set('time', this.get('time') || null)
   }
 });
@@ -26,14 +29,14 @@ Tabula.SavedLaboratoryView = Backbone.View.extend({
   tagName: 'tr',
   className: 'saved-template',
   events: {
-    'click .delete-template': 'deleteTemplate',
+    'click .delete-laboratory': 'deleteLaboratory',
     'click .download-template': 'downloadTemplate',
     'click .edit-template-name': 'editTemplateName',
     'click .save-template-name': 'renameTemplate'
   },
-  template: _.template( $('#saved-template-library-item-template').html().replace(/nestedscript/g, 'script')),
+  template: _.template( $('#saved-laboratory-library-item-laboratory').html().replace(/nestedscript/g, 'script')),
   initialize: function(){
-    _.bindAll(this, 'render', 'deleteTemplate', 'renameTemplate', 'editTemplateName');
+    _.bindAll(this, 'render', 'deleteLaboratory', 'renameTemplate', 'editTemplateName');
   },
   render: function(){
     this.$el.append(this.template(this.model.attributes));
@@ -58,7 +61,7 @@ Tabula.SavedLaboratoryView = Backbone.View.extend({
   downloadTemplate: function(e) {
     // no-op, this is handled old-school by a form element. No javascript, no jquery, certainly no backbone involved.
   },
-  deleteTemplate: function(e) {
+  deleteLaboratory: function(e) {
     var template_id = $(e.currentTarget).data("id");
     // var btn = $(e.currentTarget);
     // var tr = btn.parents('tr');
@@ -116,13 +119,13 @@ Tabula.LaboratoryLibrary = Backbone.View.extend({
     renderTemplateLibrary: function(added_model){
       console.log("renderTemplateLibrary", added_model);
       if(this.templates_collection.length > 0){
-        $('#template-library-container').show();
-        var templates_table = this.$el.find('#saved-templates-container')
+        $('#laboratories-library-container').show();
+        var templates_table = this.$el.find('#saved-laboratories-container')
 
         templates_table.empty();
 
         this.templates_collection.each(_.bind(function(template, i){
-          var template_element = new Tabula.SavedTemplateView({model: template}).render().$el;
+          var template_element = new Tabula.SavedLaboratoryView({model: template}).render().$el;
           if(added_model && added_model.get('id') == template.get('id')){
             template_element.addClass('flash');
           }

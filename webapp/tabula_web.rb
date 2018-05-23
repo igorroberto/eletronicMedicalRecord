@@ -238,37 +238,17 @@ Cuba.define do
         res.status = 200
         res['Content-Type'] = 'application/json'
         puts "GET de laboratorios"
-        res.write(JSON.dump(Tabula::Workspace.instance.list_templates))
+        res.write(JSON.dump(Tabula::LaboratoryTemplate.instance.select(req.params)))
       end
 
       # create a template from the GUI
       on post do 
-        template_info = JSON.parse(req.params["model"])
-        puts "testano aqui --------------"
-        puts JSON.generate(template_info["template"])
-        puts "fim teste aqui --------------"
-        Tabula::CustomTemplate.instance.insert(template_info["template"])
+        puts "chegou"
 
-        template_name = template_info["name"] || "Unnamed Template #{Time.now.to_s}"
-        template_id = Digest::SHA1.hexdigest(Time.now.to_s + template_name) # just SHA1 of time isn't unique with multiple uploads
-        template_filename = template_id + ".tabula-template.json"
-        file_path = File.join(TabulaSettings::DOCUMENTS_BASEPATH, "..", "templates")
-        # write to file 
-        FileUtils.mkdir_p(file_path)
-        open(File.join(file_path, template_filename), 'w'){|f| f << JSON.dump(template_info["template"])}
-        page_count = template_info.has_key?("page_count") ? template_info["page_count"] : template_info["template"].map{|f| f["page"]}.uniq.count
-        selection_count = template_info.has_key?("selection_count") ? template_info["selection_count"] :  template_info["template"].count
-        Tabula::Workspace.instance.add_template({
-                                                  "id" => template_id, 
-                                                  "name" => template_name, 
-                                                  "page_count" => page_count, 
-                                                  "time" => Time.now.to_i, 
-                                                  "selection_count" => selection_count,
-                                                  "template" => template_info["template"]
-                                                })
+        Tabula::LaboratoryTemplate.instance.insert(req.params)
         res.status = 200
         res['Content-Type'] = 'application/json'
-        res.write(JSON.dump({template_id: template_id}))
+        res.write ''
       end
     end
 
@@ -313,7 +293,7 @@ Cuba.define do
         res.write(JSON.dump({template_id: template_id}))
       end
       on delete do
-        Tabula::Workspace.instance.delete_template(template_id)
+        Tabula::LaboratoryTemplate.instance.delete(template_id)
         res.status = 200
         res.write ''
       end

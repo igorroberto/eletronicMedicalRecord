@@ -56,7 +56,6 @@ var TabulaRouter = Backbone.Router.extend({
   },
 
   laboratories: function(){
-    alert("eaii??");
     document.title="Laboratories | Tabula";
     $('nav li a').removeClass('active'); $('nav #laboratories-nav').addClass('active');
     $('#tabula-app').html( _.template( $('#laboratories-template').html().replace(/nestedscript/g, 'script') )({ }) );

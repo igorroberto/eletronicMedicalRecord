@@ -831,6 +831,8 @@ Tabula.ControlPanelView = Backbone.View.extend({ // only one
     'click #all-data': 'queryAllData',
     'click #repeat-lassos': 'repeatLassos',
     'click #save-template': 'saveTemplate',
+    'click #save-modal-template': 'buttonModalSaveTemplate',
+    
   },
 
   template: _.template($('#templates #select-control-panel-template').html().replace(/nestedscript/g, 'script')),
@@ -859,6 +861,16 @@ Tabula.ControlPanelView = Backbone.View.extend({ // only one
   },
 
   saveTemplate: function(e){
+    $("#modalSaveTemplate").modal('show');
+    this.saved_laboratory_collection = new Tabula.LaboratoriesCollection(); // this is mandatorily ordered above `new Tabula.ControlPanelView`
+    this.saved_laboratory_collection.fetch();
+
+    console.log(this.saved_laboratory_collection);
+    console.log("testando aq");
+  
+  },
+
+  buttonModalSaveTemplate: function(e){
     $btn = $(e.currentTarget);
     $btnText = $btn.find(".button-text");
     var oldButtonText = $btnText.text();
@@ -870,6 +882,7 @@ Tabula.ControlPanelView = Backbone.View.extend({ // only one
         $btn.removeAttr("disabled");
         $btn.removeProp("disabled");
         $btnText.text(oldButtonText);
+        $("#modalSaveTemplate").modal('hide');
       }, 2000);
     });
   },

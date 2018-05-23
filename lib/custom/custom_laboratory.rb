@@ -15,15 +15,11 @@ module Tabula
 
     def insert(template)
       baseInstance = makeMongoConection()
-      collection = baseInstance[:template]
+      collection = baseInstance[:laboratory]
       #top, left, bottom, right
-      template.each do |item|
-        puts item
-        puts "fimmm ^^^^"
-        doc = { top: item["y1"], left: item["x1"], bottom: item["y2"], right: item["x2"] }
-        result = collection.insert_one(doc)
-      end
-    
+      doc = { CNPJ: template["CNPJ"], laboratoryName: template["laboratoryName"], responsableNumber: template["responsableNumber"], responsableName: template["responsableName"] }
+      result = collection.insert_one(doc)
+
     end
 
     def update(template)
@@ -41,19 +37,23 @@ module Tabula
 
     def select(template)
       baseInstance = makeMongoConection()
-      collection = baseInstance[:template]
-      #top, left, bottom, right
-      template.each do |item|
-        puts item
-        puts "fimmm ^^^^"
-        doc = { top: item["y1"], left: item["x1"], bottom: item["y2"], right: item["x2"] }
-        result = collection.insert_one(doc)
+      collection = baseInstance[:laboratory]
+      array = [];
+    
+      collection.find.each do |document|
+        puts document
+        array.push(document)
       end
+      
+      return array
     
     end
 
     def delete(document_id)
- 
+      baseInstance = makeMongoConection()
+      collection = baseInstance[:laboratory]
+      puts document_id
+      collection.delete_one( { _id: BSON::ObjectId(document_id) } )
     end
 
     
