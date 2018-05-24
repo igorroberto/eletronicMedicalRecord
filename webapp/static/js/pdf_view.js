@@ -863,10 +863,19 @@ Tabula.ControlPanelView = Backbone.View.extend({ // only one
   saveTemplate: function(e){
     $("#modalSaveTemplate").modal('show');
     this.saved_laboratory_collection = new Tabula.LaboratoriesCollection(); // this is mandatorily ordered above `new Tabula.ControlPanelView`
-    this.saved_laboratory_collection.fetch();
+    this.saved_laboratory_collection.fetch({silent: true, complete: _.bind(function(){
+      console.log(this.saved_laboratory_collection.models);
+      $('#modalSelectLaboratories').empty();
+      $.each(this.saved_laboratory_collection.models, function (i, item) {
+        $('#modalSelectLaboratories').append($('<option>', { 
+            value: item.attributes.id,
+            text : item.attributes.laboratoryName
+        }));
+      });
+      console.log("testando aq");
+    }, this) });
 
-    console.log(this.saved_laboratory_collection);
-    console.log("testando aq");
+  
   
   },
 
@@ -1393,10 +1402,13 @@ Tabula.PDFView = Backbone.View.extend(
       // {"name": "fake test template", "selection_count": 0, "page_count": 0, "time": "1499535056", "id": "asdfasdf"}
 	  //envia area selecionada para back
 	  alert("teste");
-	  console.log(list_of_coords);
+    console.log(list_of_coords);
+    
+    
       var templateMetadata = {
         name: name,
         selection_count: list_of_coords.length,
+        laboratoryId: $("#modalSelectLaboratories").val() || null,
         page_count: _(_(list_of_coords).map(function(obj){ return obj["page"] })).uniq().length,
         time: Math.floor(Date.now() / 1000),
         template: _(list_of_coords).map(function(obj){ return _.omit(obj, 'selection_id') })

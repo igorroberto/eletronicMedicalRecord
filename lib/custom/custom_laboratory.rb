@@ -54,12 +54,7 @@ module Tabula
       collection = baseInstance[:laboratory]
       puts document_id
       collection.delete_one( { _id: BSON::ObjectId(document_id) } )
-    end
-
-    
-   
-
-   
+    end 
 
    
   end

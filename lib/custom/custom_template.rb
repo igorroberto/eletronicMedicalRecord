@@ -13,20 +13,23 @@ module Tabula
       return client 
     end
 
-    def insert_template(template)
+    def insert(template)
       baseInstance = makeMongoConection()
       collection = baseInstance[:template]
+      array = [];
       #top, left, bottom, right
-      template.each do |item|
-        puts item
-        puts "fimmm ^^^^"
-        doc = { top: item["y1"], left: item["x1"], bottom: item["y2"], right: item["x2"] }
-        result = collection.insert_one(doc)
+      template["template"].each do |item|
+      
+        aux = { top: item["y1"], left: item["x1"], bottom: item["y2"], right: item["x2"] }
+        array.push(aux)
+       
       end
+      doc = { laboratorio: template["laboratoryId"], areas: array }
+      result = collection.insert_one(doc)
     
     end
 
-    def delete_document(document_id)
+    def delete(document_id)
  
     end
 

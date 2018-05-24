@@ -135,7 +135,7 @@
         <span style="float: right">
           <a href="javascript:void(0)"><button type="button" id="all-data" class="btn btn-success" <%= disable_download_all %>><span class="glyphicon glyphicon-list-alt"></span> Preview & Export Extracted Data</button></a>
         </span>
-        
+
         <div id="modalSaveTemplate" class="modal fade">
           <div class="modal-dialog" style="z-index: 99999;">
               <div class="modal-content">
@@ -145,6 +145,10 @@
                   </div>
                   <div class="modal-body">
                       <p>A qual laboratório pertence o template que você deseja salvar?</p>
+                      <select id="modalSelectLaboratories" >
+                        <option>Selecione um valor...</option>
+                      </select>
+
                       <p class="text-warning"><small>Caso o laboratório que você deseja não estiver nesta lista, favor cadastrar o laboratório clicando <a href="mylaboratories">aqui</a>.</small></p>
                   </div>
                   <div class="modal-footer">
