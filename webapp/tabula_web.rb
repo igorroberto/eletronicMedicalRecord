@@ -8,6 +8,7 @@ require 'csv'
 require 'tempfile'
 require 'fileutils'
 require 'securerandom'
+require "active_support/inflector"
 
 require_relative '../lib/tabula_java_wrapper.rb'
 java_import 'java.io.ByteArrayOutputStream'
@@ -30,6 +31,8 @@ require_relative '../lib/tabula_job_executor/jobs/detect_tables.rb'
 #custom
 require_relative '../lib/custom/custom_template.rb'
 require_relative '../lib/custom/custom_laboratory.rb'
+require_relative '../lib/custom/custom_loinc_code.rb'
+require_relative '../lib/custom/custom_dados_extracao.rb'
 
 
 def is_valid_pdf?(path)
@@ -510,12 +513,55 @@ Cuba.define do
         res.write "]"
      else
         res['Content-Type'] = 'application/json'
+      # Specify type ("discrete" or "continuous") in the training data
+      labels = ["loinc", "prop"]
+      training = [
+              ["6690-2", "leucocitos"],
+              ["789-8", "eritrocitos"],
+              ["718-7", "hemoglobina"]
+      ]
 
+      
+      loincCodes = Tabula::LoincCode.instance.select()
+      
         # start JSON array
         res.write  "["
         tables.each_with_index do |table, index|
           res.write ", " if index > 0
-          res.write table.to_json[0...-1] + ", \"spec_index\": #{table.spec_index}}"
+          res.write table.to_json[0...-1] + ", \"spec_index\": #{table.spec_index}"
+          aux = JSON.parse(table.to_json)
+          #puts aux['data']
+          dados = [];
+          aux['data'].each_with_index do |item, index|
+            
+
+
+            label = item[0]
+            value = item[1]
+
+           propName = ActiveSupport::Inflector.transliterate(label['text'].downcase)
+           propValue = ActiveSupport::Inflector.transliterate(value['text'].downcase)
+
+           propName.gsub!(/[^0-9A-Za-z]/, '');
+
+            loincCodes.each_with_index do |itemLoinc, index|  
+               prop = itemLoinc["propriedade"]
+
+              if propName == prop
+                puts propName
+                puts itemLoinc["codigo"]
+                puts itemLoinc["label"]
+                 #Tabula::DadosExtracao.instance.insert(JSON.parse({'codigoPaciente': '3123123', 'propriedade': '" + propName +"', 'valor': '"+ propValue + "' }))
+                 dados.push(JSON.dump({ propName:  propName,  codigo:  itemLoinc["codigo"], label:  itemLoinc["label"], valor:  propValue  }))
+                 
+              end
+
+            end
+          
+
+          end
+
+          res.write ", \"dataRelacionada\": #{dados}}"
         end
 
         # end JSON array

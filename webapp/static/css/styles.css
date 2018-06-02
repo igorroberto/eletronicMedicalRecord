@@ -7304,13 +7304,13 @@ body {
   position: absolute;
   content: "";
   display: block;
-  background-image: url("../img/logo-hc.jpg");
+  background-image: url("../img/logo_final.png");
   background-repeat: no-repeat;
-  background-size: 60px 32px;
+  background-size: 60px 60px;
   width: 88px;
-  height: 30px;
+  height: 60px;
   left: -35px;
-  top: 10px;
+  top: 0;
 }
 
 .btn-file {

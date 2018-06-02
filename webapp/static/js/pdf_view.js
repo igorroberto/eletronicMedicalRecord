@@ -376,13 +376,34 @@ Tabula.Query = Backbone.Model.extend({
     /* via https://stackoverflow.com/questions/24816/escaping-html-strings-with-jquery
      * if a PDF contains the string "<iframe>" we want to display that, not an actual iframe!
      */
-
     if (!this.get('data')){ return []; }
     var data = _(this.get('data')).chain().pluck('data').map(function(table){
       return _(table).chain().map(function(row){
         return (_.pluck(row, 'text')).map(Tabula.escapeHtml);
       }).value();
     })/*.flatten(true)*/.value();
+
+    if (!this.get('data')){ return []; }
+    var dataRelacionada = _(this.get('data')).chain().pluck('dataRelacionada').map(function(table){
+      return _(table).chain().map(function(row){
+        return JSON.parse(row);
+      }).value();
+    })/*.flatten(true)*/.value();
+    let items ="";
+    $.each(dataRelacionada, function(j, row) {
+      $.each(row, function(j, item) {
+        items += '<p>Propriedade: ' + item.propName  + '</p>';
+        items += '<p>Codigo Loinc: ' + item.codigo + '</p>';
+        items += '<p>Label: ' + item.label  + '</p>';
+        items += '<p>Valor: ' + item.valor  + '</p><hr>';
+      });
+    });
+    $("#dataRelacionada").empty();
+    $("#dataRelacionada").append(items);
+
+    console.log(dataRelacionada);
+    console.log("em cima");
+    console.log(items);
     return data.length == 1 && data[0].length === 0 ? [] : data; // checking whether there's no data, i.e. data == [[]]
   }
 });

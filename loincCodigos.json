@@ -1,0 +1,42 @@
+[ 
+ {
+  "codigo" : "6690-2",
+  "label" : "Leucócitos",
+  "propriedade" : "leucocitos"
+  },
+  {
+  "codigo" : "789-8",
+  "label" : "Eritrócitos",
+  "propriedade" : "eritrocitos"
+ },
+  {
+  "codigo" : "718-7",
+  "label" : "Hemoglobina",
+  "propriedade" : "hemoglobina"
+ },
+  {
+  "codigo" : "4544-3",
+  "label" : "Hematócrito",
+  "propriedade" : "hematocrito"
+ },
+  {
+  "codigo" : "787-2",
+  "label" : "Volume Corpuscular Médio do Eritrócito (VCM)",
+  "propriedade" : "vcm"
+ },
+  {
+  "codigo" : "785-6",
+  "label" : "Hemoglobina eritrocitária Copuscular Média (HCM)",
+  "propriedade" : "hcm"
+ },
+  {
+  "codigo" : "786-4",
+  "label" : "Concentração de hemoglobina eritrocitária Corpuscular Média (CHCM)",
+  "propriedade" : "chcm"
+ },
+  {
+  "codigo" : "21000-5",
+  "label" : "Amplitude de distribuição do tamanho dos eritrócitos (RDW)",
+  "propriedade" : "rdw"
+ }
+]

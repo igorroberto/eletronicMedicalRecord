@@ -17,5 +17,6 @@ platform :jruby do
     gem "bootstrap-sass", "~> 3.2.0"
     gem "compass"
 	gem 'mongo', '~> 2.4'
+	gem 'activesupport', '~> 5.2'
   end
 end
