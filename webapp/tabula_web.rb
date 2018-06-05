@@ -523,7 +523,7 @@ Cuba.define do
 
       
       loincCodes = Tabula::LoincCode.instance.select()
-      
+
         # start JSON array
         res.write  "["
         tables.each_with_index do |table, index|
@@ -534,13 +534,20 @@ Cuba.define do
           dados = [];
           aux['data'].each_with_index do |item, index|
             
-
-
             label = item[0]
             value = item[1]
+            propName = ""
+            propValue = ""
 
-           propName = ActiveSupport::Inflector.transliterate(label['text'].downcase)
-           propValue = ActiveSupport::Inflector.transliterate(value['text'].downcase)
+             if label != nil 
+              propName = ActiveSupport::Inflector.transliterate(label['text'].downcase)
+             end
+
+             if value != nil  
+               propValue = ActiveSupport::Inflector.transliterate(value['text'].downcase)
+             end
+
+      
 
            propName.gsub!(/[^0-9A-Za-z]/, '');
 
@@ -553,7 +560,6 @@ Cuba.define do
                 puts itemLoinc["label"]
                  #Tabula::DadosExtracao.instance.insert(JSON.parse({'codigoPaciente': '3123123', 'propriedade': '" + propName +"', 'valor': '"+ propValue + "' }))
                  dados.push(JSON.dump({ propName:  propName,  codigo:  itemLoinc["codigo"], label:  itemLoinc["label"], valor:  propValue  }))
-                 
               end
 
             end

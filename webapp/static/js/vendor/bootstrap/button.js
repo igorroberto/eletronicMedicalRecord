@@ -22,7 +22,7 @@
   Button.VERSION  = '3.3.1'
 
   Button.DEFAULTS = {
-    loadingText: 'loading...'
+    loadingText: 'Carregando...'
   }
 
   Button.prototype.setState = function (state) {

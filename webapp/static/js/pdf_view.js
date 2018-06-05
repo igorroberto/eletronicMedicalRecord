@@ -474,7 +474,7 @@ Tabula.DataView = Backbone.View.extend({  // one per query object.
   },
 
   render: function(e){
-    document.title="Export Data | Tabula";
+    document.title="Dados exportados | Tabula";
     var uniq_extraction_methods = _.uniq(_(this.model.get('list_of_coords')).pluck('extraction_method'));
 
     // save the current scroll position (if unset), then scroll to the top
@@ -809,14 +809,14 @@ Tabula.PageView = Backbone.View.extend({ // one per page of the PDF
     if(this.model != this.model.collection.last()) {
       var but_id = this.model.get('number') + '-' + selection.id;  //create a "Repeat this Selection" button
       var button = $('<div class="btn-group repeat-lassos-group" id="'+but_id+'"> \
-      <button type="button" class="btn btn-default repeat-lassos">Repeat this Selection</button>\
+      <button type="button" class="btn btn-default repeat-lassos">Repetir esta marcação</button>\
       <button type="button" class="btn btn-default dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
         <span class="caret"></span>\
         <span class="sr-only">Toggle Dropdown</span>\
       </button>\
       <ul class="dropdown-menu">\
-        <li><a class="dropdown-item repeat-lassos" href="#">Repeat to All Pages</a></li>\
-        <li><a class="dropdown-item repeat-lasso-once" href="#">Repeat to Next Page</a></li>\
+        <li><a class="dropdown-item repeat-lassos" href="#">Repetir em todas as páginas</a></li>\
+        <li><a class="dropdown-item repeat-lasso-once" href="#">Repetir na próxima página</a></li>\
       </ul>\
     </div>');
       button.find("button").data("selectionId", selection.id);
@@ -1422,7 +1422,7 @@ Tabula.PDFView = Backbone.View.extend(
       var list_of_coords = Tabula.pdf_view.pdf_document.selections.invoke("toCoords");
       // {"name": "fake test template", "selection_count": 0, "page_count": 0, "time": "1499535056", "id": "asdfasdf"}
 	  //envia area selecionada para back
-	  alert("teste");
+	  console.log("teste");
     console.log(list_of_coords);
     
     
@@ -1439,7 +1439,7 @@ Tabula.PDFView = Backbone.View.extend(
     },
 
     render : function(){
-      document.title="Select Tables | Tabula";
+      document.title="Seleção de dados | Tabula";
       this.components['document_view'].render();
 
       $('#control-panel').append(this.components['control_panel'].render().el);

@@ -6,7 +6,7 @@ Tabula.FileUpload = Backbone.Model.extend({
   // uploadOrder
   initialize: function(){
     this.set({
-      message: 'waiting to be processed...',
+      message: 'Aguarde, processando...',
       pct_complete: 0,
       warnings: []
     });
@@ -15,7 +15,7 @@ Tabula.FileUpload = Backbone.Model.extend({
   checkStatus: function() {
     if(typeof this.get('file_id') == 'undefined' && typeof !this.get('upload_id') == 'undefined'){
       this.pct_complete = 1;
-      this.message = "waiting to be processed..."
+      this.message = "Aguarde, processando..."
     }else{
       $.ajax({
           dataType: 'json',
@@ -41,7 +41,7 @@ Tabula.FileUpload = Backbone.Model.extend({
                 $('form#upload')[0].reset();
 
                 //TODO: something prettier.
-                alert("Sorry, your PDF file is image-based; it does not have any embedded text. It might have been scanned from paper... Tabula isn't able to extract any data from image-based PDFs. Click the Help button for more information.");
+                alert("Desculpe, seu PDF  é com base em imagem; não contem nenhum texto. Ele pode ter sido escaneado... Info+ Saude não extrai dados de PDFs baseados em imagem.");
             } else if(data.pct_complete < 100) {
                 this.timer = setTimeout(_.bind(this.checkStatus, this), 1000);
             } else {
@@ -272,7 +272,7 @@ Tabula.Library = Backbone.View.extend({
         $('#library-container').hide();
         $('#library-container').
           after(_.template( $('#help-template').html().replace(/nestedscript/g, 'script') )({})).
-          after('<h1>First time using Tabula? Welcome!</h1>');
+          after('<h1>Primeiro acesso? Bem vindo!</h1>');
         $('.jumbotron.help').css('padding-top', '10px');
       }
     },

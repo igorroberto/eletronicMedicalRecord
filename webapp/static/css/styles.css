@@ -7409,6 +7409,8 @@ form {
 #file-list-container .file-list tbody tr td:first-of-type {
   font-weight: bold;
   text-align: left;
+  max-width: 480px;
+  word-wrap: break-word;
 }
 #file-list-container .file-list tbody tr td a {
   color: #333;
@@ -7766,4 +7768,14 @@ div.spinner {
   position: relative;
   top: 6px;
   margin-right: 5px;
+}
+#modalSaveTemplate{
+  top: 30%;
+}
+#dataRelacionada{
+  position: absolute;
+  right: 500px;
+}
+.modal-backdrop.in {
+  height: 100vh !important;
 }
